@@ -1,9 +1,10 @@
 # Step 1: Build the Ktor application using Gradle and JDK 17
 FROM gradle:8.5-jdk17 AS build
+USER root
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN ./gradlew :backend:installDist --no-daemon
 
+# Grant executable permissions to the gradle wrapper
 RUN chmod +x gradlew
 
 RUN ./gradlew :backend:installDist --no-daemon
