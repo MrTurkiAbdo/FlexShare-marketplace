@@ -8,7 +8,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 object NetworkClient {
-    const val BASE_URL = "http://10.0.2.2:8080"
+    const val BASE_URL = "http://192.168.100.128:8080/"
 
     val httpClient = HttpClient(OkHttp) {
         install(ContentNegotiation) {
