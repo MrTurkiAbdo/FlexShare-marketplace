@@ -141,14 +141,18 @@ class HomeViewModel : ViewModel() {
             try {
                 _isLoading.value = true
 
-                // Send the network deletion sequence trigger
+                // 1. Tell the cloud server to delete it
                 RetrofitClient.apiService.deleteListing(id)
 
-                // Clear current selection out of view state so the UI snaps back home
+                // 2. Clear out selection state safely
                 selectListing(null)
 
-                // Sync with backend database lists state
-                fetchCloudListings()
+                // Instantly slice it out of local memory so the UI updates with zero delays
+                _listings.update { currentList ->
+                    currentList.filter { it.id != id }
+                }
+
+                _isLoading.value = false // Done loading!
 
             } catch (e: Exception) {
                 e.printStackTrace()

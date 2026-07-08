@@ -36,7 +36,9 @@ fun AddListingScreen(
     var description by remember { mutableStateOf(existingListing?.description ?: "") }
     var price by remember { mutableStateOf(existingListing?.pricePerDay?.toString() ?: "") }
     var ownerName by remember { mutableStateOf(existingListing?.ownerName ?: "") }
-    var category by remember { mutableStateOf(existingListing?.category ?: "Tools") }
+
+    // 🟢 Defaulting to "Electronics" as our default selected dropdown value
+    var category by remember { mutableStateOf(existingListing?.category ?: "Electronics") }
 
     // 🖼️ State to track selected local photo Uri
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -84,7 +86,7 @@ fun AddListingScreen(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(selectedImageUri)
                             .crossfade(true)
-                            .allowHardware(false) // 🚀 Explicitly keeping your hwuiTask0 rendering fix!
+                            .allowHardware(false)
                             .build(),
                         contentDescription = "Selected Photo Preview",
                         modifier = Modifier.fillMaxSize(),
@@ -131,7 +133,7 @@ fun AddListingScreen(
             OutlinedTextField(
                 value = price,
                 onValueChange = { price = it },
-                label = { Text("Price per day ($)") },
+                label = { Text("Price per day (SAR)") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -142,11 +144,11 @@ fun AddListingScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedTextField(
-                value = category,
-                onValueChange = { category = it },
-                label = { Text("Category (e.g. Tools, Garden)") },
-                modifier = Modifier.fillMaxWidth()
+            ItemTypeDropdown(
+                selectedType = category,
+                onTypeSelected = { chosenCategory ->
+                    category = chosenCategory
+                }
             )
 
             OutlinedTextField(
@@ -170,6 +172,46 @@ fun AddListingScreen(
                     .height(50.dp)
             ) {
                 Text("Publish Listing", style = MaterialTheme.typography.titleMedium)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ItemTypeDropdown(
+    selectedType: String,
+    onTypeSelected: (String) -> Unit
+) {
+    // These match the categories you filter by in your HomeViewModel
+    val categories = listOf("Electronics", "Vehicles", "Tools", "Books", "Services")
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        OutlinedTextField(
+            value = selectedType,
+            onValueChange = {},
+            readOnly = true, // Lock keyboard input so they MUST choose from your list
+            label = { Text("Category") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier.fillMaxWidth().menuAnchor()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            categories.forEach { category ->
+                DropdownMenuItem(
+                    text = { Text(text = category) },
+                    onClick = {
+                        onTypeSelected(category)
+                        expanded = false
+                    }
+                )
             }
         }
     }
