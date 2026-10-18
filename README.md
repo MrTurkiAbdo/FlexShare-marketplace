@@ -15,10 +15,7 @@ A full-stack marketplace app where people list tools and items to **sell or rent
 
 | Home | Listing details | Booking |
 |------|-----------------|---------|
-| ![Home](<img width="344" height="715" alt="image" src="https://github.com/user-attachments/assets/61ffba0b-3c23-476e-931b-e7c3511ed842" />
-) | ![Details](<img width="336" height="723" alt="image" src="https://github.com/user-attachments/assets/378502a7-afca-4f9c-9778-02766ba689b5" />
-) | ![Booking](<img width="326" height="715" alt="image" src="https://github.com/user-attachments/assets/276fa0e7-c8cc-4efe-a66c-00ad6ea90197" />
-) |
+| ![Home](<img width="344" height="715" alt="image" src="https://github.com/user-attachments/assets/61ffba0b-3c23-476e-931b-e7c3511ed842" />) | ![Details](<img width="336" height="723" alt="image" src="https://github.com/user-attachments/assets/378502a7-afca-4f9c-9778-02766ba689b5" />) | ![Booking](<img width="326" height="715" alt="image" src="https://github.com/user-attachments/assets/276fa0e7-c8cc-4efe-a66c-00ad6ea90197" />) |
 
 ## Tech stack
 
